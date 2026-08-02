@@ -29,18 +29,37 @@ def lookup(name):
     return []
 
 
+def do_lookup(domain):
+    """The function calls lookup function
+    :param domain: domain name
+    :type domain: str
+    :return: nothing
+    :rtype: None"""
+    # making the link usable even without writing .com
+    if '.' not in domain and not domain.replace('.', '').isdigit():
+        domain += '.com'
+    ips = lookup(domain)
+    if ips:
+        print(f"'{domain}' IPs: {', '.join(ips)}")
+    else:
+        print(f"No IPs found for '{domain}'")
+
+
 def main():
     if len(sys.argv) == 2:
         name = sys.argv[1]
-        if name != '':
-            print("Found using 'Cookie Knowledge' :]\n")
-            ips = lookup(name)
-            if ips:
-                print(f"'{name}' IPs: {', '.join(ips)}")
-            else:
-                print(f"No IPs found for '{name}'")
-        else:
-            print("Usage: python nslookup.py <domain>")
+    else:
+        print("Usage: python nslookup.py <domain>")
+        print("Found using 'Cookie Knowledge' :]\n")
+        name = input("But I'll still allow it :]\nDomain name plz: ")
+
+    if len(sys.argv) != 2:
+        while name != '':
+            do_lookup(name)
+            name = input("But I'll still allow it :]\nDomain name plz: ")
+    elif name != '' and len(sys.argv) == 2:
+        print("Found using 'Cookie Knowledge' :]\n")
+        do_lookup(name)
     else:
         print("Usage: python nslookup.py <domain>")
 
